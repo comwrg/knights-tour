@@ -53,16 +53,40 @@ queue<point> get_next(const point &p) {
     return que;
 }
 
+void show() {
+    int chessboard[H][W];
+    memset(chessboard, 0 , sizeof(chessboard));
+    int i = H*W;
+    while (!path.empty()) {
+        auto p = path.top();
+        path.pop();
+        chessboard[p.x][p.y] = i--;
+    }
+    for (int i = 0; i < H; i++) {
+        for (int j = 0; j < W; j++) {
+            printf("%4d", chessboard[i][j]);
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
 bool knight_tour(const point &p) {
     if (path.size() >= H*W) {
         if (closed) {
             for (int i = 0; i < 8; i++) {
-                if (p.x+DIR[i][0] == start.x and p.y+DIR[i][1] == start.y)
+                if (p.x+DIR[i][0] == start.x and p.y+DIR[i][1] == start.y) {
+                    show();
                     return true;
+                }
             }
             return false;
         } else {
-            return p.x == dst.x and p.y == dst.y;
+            bool r = p.x == dst.x and p.y == dst.y;
+            if (r) {
+                show();
+            }
+            return r;
         }
     }
 
@@ -91,25 +115,7 @@ int main() {
     closed = (start.x == dst.x and start.y == dst.y);
     memset(arrived, 0, sizeof(arrived));
     arrived[start.x][start.y] = true;
-    bool r = knight_tour(start);
-    if (!r) {
-        cout << "no." << endl;
-    } else {
-        int chessboard[H][W];
-        memset(chessboard, 0 , sizeof(chessboard));
-        int i = H*W;
-        while (!path.empty()) {
-            auto p = path.top();
-            path.pop();
-            chessboard[p.x][p.y] = i--;
-        }
-        for (int i = 0; i < H; i++) {
-            for (int j = 0; j < W; j++) {
-                printf("%4d", chessboard[i][j]);
-            }
-            cout << endl;
-        }
-    }
+    knight_tour(start);
     main();
     return 0;
 }
