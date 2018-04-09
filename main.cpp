@@ -57,9 +57,10 @@ void show() {
     int chessboard[H][W];
     memset(chessboard, 0 , sizeof(chessboard));
     int i = H*W;
-    while (!path.empty()) {
-        auto p = path.top();
-        path.pop();
+    stack<point> cp(path);
+    while (!cp.empty()) {
+        auto p = cp.top();
+        cp.pop();
         chessboard[p.x][p.y] = i--;
     }
     for (int i = 0; i < H; i++) {
@@ -111,6 +112,8 @@ int main() {
     cin >> start.x >> start.y;
     cout << "dst  :";
     cin >> dst.x   >> dst.y;
+    while (!path.empty())
+        path.pop();
     path.push(start);
     closed = (start.x == dst.x and start.y == dst.y);
     memset(arrived, 0, sizeof(arrived));
