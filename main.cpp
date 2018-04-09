@@ -97,7 +97,7 @@ bool knight_tour(const point &p) {
         arrived[next.x][next.y] = true;
         path.push(next);
         bool r = knight_tour(next);
-        if (r)
+        if (r and !closed)
             return true;
         path.pop();
         arrived[next.x][next.y] = false;
