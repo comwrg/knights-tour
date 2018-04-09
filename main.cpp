@@ -18,7 +18,7 @@ struct point {
 
 stack<point> path;
 point start, dst;
-
+bool closed;
 
 bool valid(const point &p) {
     return p.x >= 0 and p.x < H
@@ -55,7 +55,7 @@ queue<point> get_next(const point &p) {
 
 bool knight_tour(const point &p) {
     if (path.size() >= H*W) {
-        if (start.x == dst.x and start.y == dst.y) {
+        if (closed) {
             for (int i = 0; i < 8; i++) {
                 if (p.x+DIR[i][0] == start.x and p.y+DIR[i][1] == start.y)
                     return true;
@@ -88,6 +88,7 @@ int main() {
     cout << "dst  :";
     cin >> dst.x   >> dst.y;
     path.push(start);
+    closed = (start.x == dst.x and start.y == dst.y);
     memset(arrived, 0, sizeof(arrived));
     arrived[start.x][start.y] = true;
     bool r = knight_tour(start);
