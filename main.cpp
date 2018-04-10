@@ -10,6 +10,7 @@ const int DIR[8][2] = {
         {  2, -1 }, {  1, -2 }, { -1, -2 }, { -2, -1 }
 };
 int arrived[H][W];
+int casen;
 
 struct point {
     int x, y;
@@ -63,6 +64,7 @@ void show() {
         cp.pop();
         chessboard[p.x][p.y] = i--;
     }
+    cout << ++casen << endl;
     for (int i = 0; i < H; i++) {
         for (int j = 0; j < W; j++) {
             printf("%4d", chessboard[i][j]);
@@ -118,7 +120,11 @@ int main() {
     closed = (start.x == dst.x and start.y == dst.y);
     memset(arrived, 0, sizeof(arrived));
     arrived[start.x][start.y] = true;
-    knight_tour(start);
+    casen = 0;
+    bool r = knight_tour(start);
+    if (!r) {
+        cout << "no found." << endl;
+    }
     main();
     return 0;
 }
